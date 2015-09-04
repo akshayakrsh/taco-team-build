@@ -8,14 +8,19 @@ var gulp = require("gulp"),
     cordovaBuild = require("taco-team-build");
 
 var winPlatforms = ["android", "windows", "wp8"],
-    osxPlatforms = ["ios"],
+   otherPlatforms = {
+      // "darwin" is the platform name returned for OSX. OSX can prepare builds for android as well
+      "darwin": ["ios", "android"],
+      // "linux" is the platform name returned by all linux based OS e.g. Ubuntu, Red Hat, etc.
+      "linux": ["android"]
+    },
     buildArgs = {
         android: ["--release","--device","--gradleArg=--no-daemon"],                // Warning: Omit the extra "--" when referencing platform
         ios: ["--release", "--device"],                                             // specific preferences like "-- --ant" for Android
         windows: ["--release", "--device"],                                         // or "-- --win" for Windows. You may also encounter a
         wp8: ["--release", "--device"]                                              // "TypeError" after adding a flag Android doesn't recognize
     },                                                                              // when using Cordova < 4.3.0. This is fixed in 4.3.0.
-    platformsToBuild = process.platform == "darwin" ? osxPlatforms : winPlatforms,  // "Darwin" is the platform name returned for OSX. 
+    platformsToBuild = otherPlatforms.hasOwnProperty(process.platform) ? otherPlatforms[process.platform] : winPlatforms,
     tsconfigPath = "scripts/tsconfig.json";                                         // This could be extended to include Linux as well.
 
 gulp.task("default", ["package"], function () {
