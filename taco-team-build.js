@@ -10,16 +10,11 @@ var fs = require('fs'),
     exec = Q.nfbind(require('child_process').exec);
 
 // Constants
-var DEFAULT_CORDOVA_VERSION = "5.1.1",
+var DEFAULT_CORDOVA_VERSION = "5.3.3",
     // Support plugin adds in two VS features and a set of bug fixes. Plugin needs to be local due to a bug in Cordova 5.1.1 when fetching from Git.
     SUPPORT_PLUGIN = path.join(__dirname,"taco-cordova-support-plugin"),
     SUPPORT_PLUGIN_ID = "cordova-plugin-vs-taco-support",
-    OLD_SUPPORT_PLUGIN_ID = "com.microsoft.visualstudio.taco",
-    // cordova-lib is technically what we want to given that is what cordova gives us when you "requre"
-    // the node the "cordova" node module. However, the "cordova" and "cordova-lib" package version 
-    // numbers do not match in CLI < v3.7.0. Ex: 3.6.3-0.2.13 does not match cordova-lib's version. 
-    // If you need < v3.7.0, update this constant to "cordova".
-    CORDOVA_LIB = "cordova-lib";
+    CORDOVA_LIB = "cordova";
 
 
 // Global vars
@@ -198,13 +193,8 @@ function getCordova() {
         }
 
         // Remove old version f support plugin if present. Add the new one if it's missing.
-        if(fs.existsSync(path.join(projectPath, "plugins", OLD_SUPPORT_PLUGIN_ID))) {
-            console.log("Removing old support plugin.");
-            return cdv.raw.plugin("remove", OLD_SUPPORT_PLUGIN_ID).then(function() { return addSupportPlugin(cdv); });
-        } else {
-            return addSupportPlugin(cdv);
-        }        
-    } else {    
+        return addSupportPlugin(cdv);
+    } else {
         return Q(cdv);
     }
 }
