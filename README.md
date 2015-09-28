@@ -1,10 +1,10 @@
-Visual Studio Tools for Apache Cordova (TACo) Team Build Helper Node Module
+Apache Cordova (TACo) Team Build Helper Node Module
 ===============
-**Note: This node module is intended for use with the Cordova CLI or Visual Studio 2015 and is not an offically supported Microsoft product. It does not work with Visual Studio 2013 CTPs.**
+**Note: This node module is intended for use with the Cordova CLI or Visual Studio 2015 and is not an offically supported Microsoft product. It does not work with Visual Studio 2013 CTPs. The node module can be used for standard Cordova projects even if Visual Studio is not used.**
 
 License: MIT
 
-taco-team-build is a sample node module designed to avoid common pitfalls when building Cordova apps in a Team or Continuous Integration (CI) environment. It was put together for a set of tutorials for the [Visual Studio 2015 Tools for Apache Cordova](http://aka.ms/cordova) (TACo) featureset in Visual Studio but can be used with standard cordova projects.
+taco-team-build is a node module designed to avoid common pitfalls when building Cordova apps in a Team or Continuous Integration (CI) environment. It was put together for a set of tutorials for the [Visual Studio 2015 Tools for Apache Cordova](http://aka.ms/cordova) (TACo) featureset in Visual Studio but can be used with standard cordova projects.
 
 Specifically it helps with the following challenges:
 
@@ -52,18 +52,18 @@ Allows you to programatically configure the Cordova version to use, the location
 var build = require('taco-team-build');
 build.configure({
     cordovaCache: "D:\\path\\to\\cache",
-    cordovaVersion: "4.3.1",
+    cordovaVersion: "5.3.3",
     projectPath: "myproject"
 }).done();
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -   **cordovaCache** defaults to either the **CORDOVA\_CACHE** environment variable or %APPDATA%\cordova-cache on Windows and ~/.cordova-cache on OSX if no value is set for the variable. This will also automatically set CORDOVA\_HOME and PLUGMAN\_HOME to sub-folders in this same location to avoid conflicting with any global instllations you may have.
 -   **projectPath** defaults to the current working directory.
--   If the **cordovaVersion** is not set, the version will be pulled from **taco.json** if present and otherwise default to 5.1.1.  You can manually create a taco.json file if you are not using Visual Studio by including the following in the file:
+-   If the **cordovaVersion** is not set, the version will be pulled from **taco.json** if present and otherwise default to 5.3.3.  You can manually create a taco.json file if you are not using Visual Studio by including the following in the file:
 
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     {
-        "cordova-cli": "4.3.1"
+        "cordova-cli": "5.2.0"
     }
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
