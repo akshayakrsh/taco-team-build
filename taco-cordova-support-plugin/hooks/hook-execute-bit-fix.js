@@ -9,7 +9,7 @@ var Q;
 
 module.exports = function(context) {
   // Only bother if we're on OSX and are after platform add for iOS itself (still need to run for other platforms)
-  if((process.platform == "darwin" || process.platform == "linux") &&
+  if((process.platform == "darwin") &&
     context.opts &&
     context.opts.cordova &&
     context.opts.cordova.platforms &&
@@ -22,10 +22,11 @@ module.exports = function(context) {
 
     // Generate the script to set execute bits for installed platforms
     var script ="";
+    var regex_flag = process.platform == 'darwin' ? '-E' : '';
     context.opts.cordova.platforms.forEach(function(platform) {
-      script += "find -E platforms/" + platform + "/cordova -type f -regex \"[^.(LICENSE)]*\" -exec chmod +x {} +\n"
+      script += "find " + regex_flag + " platforms/" + platform + "/cordova -type f -regex \"[^.(LICENSE)]*\" -exec chmod +x {} +\n"
     });
-
+ 
     // Run script
     exec(script, function(err, stderr, stdout) {
       if(err) deferred.reject(err);
