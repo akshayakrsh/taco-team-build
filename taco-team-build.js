@@ -82,6 +82,28 @@ function setupCordova(obj) {
 }
 
 // Main build method
+function prepareProject(cordovaPlatforms, args) {
+    if (typeof (cordovaPlatforms) == "string") {
+        cordovaPlatforms = [cordovaPlatforms];
+    }
+
+    return setupCordova().then(function (cordova) {
+        // Add platforms if not done already
+        var promise = addPlatformsToProject(cordova, cordovaPlatforms);
+        //Build each platform with args in args object
+        cordovaPlatforms.forEach(function (platform) {
+            promise = promise.then(function () {
+                // Build app with platform specific args if specified
+                var callArgs = getCallArgs(platform, args);
+                console.log("Queueing prepare for platform " + platform + " w/options: " + callArgs.options || "none");
+                return cordova.raw.prepare(callArgs);
+            });
+        });
+        return promise;
+    });
+}
+
+// Main build method
 function buildProject(cordovaPlatforms, args) {
     if (typeof (cordovaPlatforms) == "string") {
         cordovaPlatforms = [cordovaPlatforms];
@@ -241,6 +263,7 @@ function handleExecReturn(result) {
 module.exports = {
     configure: configure,
     setupCordova: setupCordova,
+    prepareProject: prepareProject,
     buildProject: buildProject,
     packageProject: packageProject
 };
